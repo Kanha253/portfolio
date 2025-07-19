@@ -18,6 +18,57 @@
     font-weight: 600;
 }
 
+/* Navbar styles */
+nav {
+  width: 100%;
+  background: rgba(0,0,0,0.7);
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 10;
+}
+nav ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: flex-end;
+}
+nav ul li {
+  margin: 0 20px;
+}
+nav ul li a {
+  color: #fff;
+  text-decoration: none;
+  font-size: 1.2em;
+  padding: 15px 0;
+  display: block;
+}
+section {
+  margin-top: 80px;
+  padding: 40px 20px;
+  background: rgba(255,255,255,0.8);
+  border-radius: 10px;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+#contact {
+  margin-top: 120px;
+}
+/* background video */
+.bg-video {
+    position: fixed;
+    top: 0;
+    left: 0;
+    min-width: 100vw;
+    min-height: 100vh;
+    width: 100vw;
+    height: 100vh;
+    object-fit: cover;
+    z-index: -1;
+    pointer-events: none; /* So it doesn't block clicks */
+  }
 /* General Styles */
 :root {
     --primary-color: #0d6efd;
@@ -51,8 +102,8 @@ body {
 /* Hero Section */
 .hero-section {
     min-height: 100vh;
-    background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('./background.jpg') no-repeat center center;
-    background-size: cover;
+    /* background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('pics/background.jpg') no-repeat center center; */
+    /* background-size: cover; */
     padding-top: 80px;
 }
 
@@ -117,4 +168,144 @@ body {
     .hero-section {
         padding-top: 60px;
     }
+}
+
+/* sword cursor */
+body {
+    cursor: url('pics/sword_cursor.png') 5 28, auto;
+  }
+
+#support-robin {
+  z-index: 1100;
+}
+
+.support-img {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: auto;
+  height: 64px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  cursor: pointer;
+  z-index: 1000;
+  transition: transform 0.2s, box-shadow 0.2s, bottom 0.3s;
+  background: none;
+  padding: 0;
+}
+.support-img-above-top {
+  bottom: 90px !important;
+}
+.support-img:hover {
+  transform: scale(1.08) rotate(-8deg);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.25);
+}
+
+.text-justify {
+  text-align: justify;
+}
+
+#about .container {
+  max-width: 700px;
+  padding: 24px 24px 16px 24px;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}
+
+.social-links a .fa-linkedin-in {
+  color: #0077b5;
+}
+.social-links a .fa-github {
+  color: #333;
+}
+.social-links a .fa-instagram {
+  color: #e4405f;
+}
+.social-links a i {
+  transition: transform 0.2s, filter 0.2s;
+}
+.social-links a:hover i {
+  transform: scale(1.15);
+  filter: brightness(1.2);
+}
+
+.profile-carousel {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+}
+.carousel-card {
+  transition: transform 0.3s, box-shadow 0.3s, opacity 0.3s;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.10);
+  border-radius: 16px;
+  overflow: hidden;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.center-card {
+  z-index: 2;
+  transform: scale(1.15);
+  box-shadow: 0 4px 24px rgba(0,0,0,0.18);
+  opacity: 1;
+}
+.left-card, .right-card {
+  z-index: 1;
+  transform: scale(0.92);
+  opacity: 0.7;
+}
+.card-img {
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 16px;
+  background: #eee;
+}
+.center-card .card-img {
+  width: 160px;
+  height: 160px;
+}
+.carousel-arrow {
+  color: #0d6efd;
+  background: none;
+  border: none;
+  outline: none;
+  transition: color 0.2s, transform 0.2s;
+  z-index: 3;
+}
+.carousel-arrow:hover {
+  color: #0a58ca;
+  transform: scale(1.18);
+}
+
+#centerProfileImg {
+  width: 220px;
+  height: 220px;
+  object-fit: cover;
+}
+
+.profile-carousel-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 2rem;
+  gap: 0.5rem;
+}
+.profile-carousel-row .carousel-card {
+  align-self: center;
+  transform: translateY(-120px);
+}
+.profile-carousel-row .hero-section {
+  align-self: center;
+}
+.profile-carousel-row .carousel-arrow {
+  transform: translateY(-120px);
+}
+
+#home.hero-section {
+  margin-bottom: 50px;
+}
+#about {
+  margin-top: 0px;
 }

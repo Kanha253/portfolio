@@ -7,24 +7,31 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Back to top button
     const backToTopButton = document.getElementById('backToTop');
-    window.addEventListener('scroll', function() {
-        if (window.pageYOffset > 300) {
-            backToTopButton.style.display = 'block';
-        } else {
-            backToTopButton.style.display = 'none';
-        }
-    });
-    backToTopButton.addEventListener('click', function() {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    });
+    const supportRobin = document.querySelector('.support-img');
+    if (backToTopButton) {
+        window.addEventListener('scroll', function() {
+            if (window.pageYOffset > 300) {
+                backToTopButton.style.display = 'block';
+                if (supportRobin) supportRobin.classList.add('support-img-above-top');
+            } else {
+                backToTopButton.style.display = 'none';
+                if (supportRobin) supportRobin.classList.remove('support-img-above-top');
+            }
+        });
+        backToTopButton.addEventListener('click', function() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+    }
 
     // Show more button functionality
     const showMoreBtn = document.getElementById('showMoreBtn');
     const moreInfo = document.getElementById('moreInfo');
-    showMoreBtn.addEventListener('click', function() {
-        moreInfo.classList.toggle('d-none');
-        this.textContent = moreInfo.classList.contains('d-none') ? 'Show More' : 'Show Less';
-    });
+    if (showMoreBtn && moreInfo) {
+        showMoreBtn.addEventListener('click', function() {
+            moreInfo.classList.toggle('d-none');
+            this.textContent = moreInfo.classList.contains('d-none') ? 'Show More' : 'Show Less';
+        });
+    }
 
     // Skills data
     const skills = [
@@ -38,6 +45,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Render skills
     const skillsContainer = document.getElementById('skillsContainer');
     function renderSkills() {
+        if (!skillsContainer) return;
         skillsContainer.innerHTML = '';
         skills.forEach(skill => {
             const skillCol = document.createElement('div');
@@ -62,23 +70,25 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Add skill button functionality
     const addSkillBtn = document.getElementById('addSkillBtn');
-    addSkillBtn.addEventListener('click', function() {
-        const newSkillName = prompt('Enter new skill name:');
-        if (newSkillName) {
-            const newSkillLevel = parseInt(prompt('Enter skill proficiency (0-100):'));
-            if (!isNaN(newSkillLevel) && newSkillLevel >= 0 && newSkillLevel <= 100) {
-                const newSkillIcon = prompt('Enter icon class (e.g., "fab fa-react"):') || 'fas fa-code';
-                skills.push({
-                    name: newSkillName,
-                    level: newSkillLevel,
-                    icon: newSkillIcon
-                });
-                renderSkills();
-            } else {
-                alert('Please enter a valid number between 0 and 100');
+    if (addSkillBtn && skillsContainer) {
+        addSkillBtn.addEventListener('click', function() {
+            const newSkillName = prompt('Enter new skill name:');
+            if (newSkillName) {
+                const newSkillLevel = parseInt(prompt('Enter skill proficiency (0-100):'));
+                if (!isNaN(newSkillLevel) && newSkillLevel >= 0 && newSkillLevel <= 100) {
+                    const newSkillIcon = prompt('Enter icon class (e.g., "fab fa-react"):') || 'fas fa-code';
+                    skills.push({
+                        name: newSkillName,
+                        level: newSkillLevel,
+                        icon: newSkillIcon
+                    });
+                    renderSkills();
+                } else {
+                    alert('Please enter a valid number between 0 and 100');
+                }
             }
-        }
-    });
+        });
+    }
 
     // Academic data
     const academicData = [
@@ -88,12 +98,14 @@ document.addEventListener('DOMContentLoaded', function() {
         { semester: '4th Semester', cgpa: 7.7 },
         { semester: '5th Semester', cgpa: 7.67 },
         { semester: '6th Semester', cgpa: 7.73 },
-        { semester: '7th Semester', cgpa: 7.88 }
+        { semester: '7th Semester', cgpa: 7.88 },
+        { semester: '8th Semester', cgpa: 7.9 }
     ];
 
     // Render academic table
     const academicTable = document.getElementById('academicTable');
     function renderAcademicTable() {
+        if (!academicTable) return;
         academicTable.innerHTML = '';
         academicData.forEach(item => {
             const progressWidth = (item.cgpa / 10) * 100;
@@ -116,41 +128,65 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Export as JSON button
     const exportBtn = document.getElementById('exportBtn');
-    exportBtn.addEventListener('click', function() {
-        const dataStr = JSON.stringify(academicData, null, 2);
-        const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
-        
-        const exportFileDefaultName = 'academic-performance.json';
-        
-        const linkElement = document.createElement('a');
-        linkElement.setAttribute('href', dataUri);
-        linkElement.setAttribute('download', exportFileDefaultName);
-        linkElement.click();
-    });
+    if (exportBtn && academicTable) {
+        exportBtn.addEventListener('click', function() {
+            const dataStr = JSON.stringify(academicData, null, 2);
+            const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
+            const exportFileDefaultName = 'academic-performance.json';
+            const linkElement = document.createElement('a');
+            linkElement.setAttribute('href', dataUri);
+            linkElement.setAttribute('download', exportFileDefaultName);
+            linkElement.click();
+        });
+    }
+
+    const exportExcelBtn = document.getElementById('exportExcelBtn');
+    if (exportExcelBtn && academicTable) {
+        exportExcelBtn.addEventListener('click', function() {
+            // Convert academicData to CSV
+            let csv = 'Semester,CGPA\n';
+            academicData.forEach(item => {
+                csv += `${item.semester},${item.cgpa}\n`;
+            });
+            // Create a Blob and trigger download as .xlsx (Excel can open CSV files)
+            const blob = new Blob([csv], { type: 'text/csv' });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = 'academic-performance.xlsx';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            URL.revokeObjectURL(url);
+        });
+    }
 
     // Contact form submission
     const contactForm = document.getElementById('contactForm');
     const formSuccess = document.getElementById('formSuccess');
-    contactForm.addEventListener('submit', function(e) {
-        e.preventDefault();
-        
-        // Simulate form submission
-        setTimeout(() => {
-            contactForm.reset();
-            formSuccess.classList.remove('d-none');
+    if (contactForm && formSuccess) {
+        contactForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            // Simulate form submission
             setTimeout(() => {
-                formSuccess.classList.add('d-none');
-            }, 3000);
-        }, 1000);
-    });
+                contactForm.reset();
+                formSuccess.classList.remove('d-none');
+                setTimeout(() => {
+                    formSuccess.classList.add('d-none');
+                }, 3000);
+            }, 1000);
+        });
+    }
 
-    // Smooth scrolling for navigation links
+    // Smooth scrolling for navigation links (only for anchor links on the same page)
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
-            e.preventDefault();
-            document.querySelector(this.getAttribute('href')).scrollIntoView({
-                behavior: 'smooth'
-            });
+            const targetId = this.getAttribute('href').substring(1);
+            const targetElement = document.getElementById(targetId);
+            if (targetElement) {
+                e.preventDefault();
+                targetElement.scrollIntoView({ behavior: 'smooth' });
+            }
         });
     });
 
@@ -160,7 +196,6 @@ document.addEventListener('DOMContentLoaded', function() {
         elements.forEach(element => {
             const elementPosition = element.getBoundingClientRect().top;
             const screenPosition = window.innerHeight / 1.3;
-            
             if (elementPosition < screenPosition) {
                 element.style.opacity = '1';
             }
@@ -175,4 +210,129 @@ document.addEventListener('DOMContentLoaded', function() {
 
     window.addEventListener('scroll', animateOnScroll);
     animateOnScroll(); // Run once on page load
+
+    // Profile image carousel logic (fixed rotation)
+    const carouselImages = [
+        { src: 'pics/pic1.jpg', alt: 'Left Pic' },
+        { src: 'pics/kanhaiya_profile.jpg', alt: 'Profile' },
+        { src: 'pics/pic3.jpg', alt: 'Right Pic' }
+    ];
+    const leftCard = document.querySelector('.left-card .card-img');
+    const centerImg = document.getElementById('centerProfileImg');
+    const rightCard = document.querySelector('.right-card .card-img');
+    const leftArrow = document.querySelector('.carousel-arrow.left-arrow');
+    const rightArrow = document.querySelector('.carousel-arrow.right-arrow');
+
+    function updateCarousel() {
+        if (leftCard && centerImg && rightCard) {
+            leftCard.src = carouselImages[0].src;
+            leftCard.alt = carouselImages[0].alt;
+            centerImg.src = carouselImages[1].src;
+            centerImg.alt = carouselImages[1].alt;
+            rightCard.src = carouselImages[2].src;
+            rightCard.alt = carouselImages[2].alt;
+        }
+    }
+    updateCarousel();
+
+    if (leftArrow && rightArrow) {
+        leftArrow.addEventListener('click', function() {
+            // Rotate left: center -> left, right -> center, left -> right
+            const temp = carouselImages[0];
+            carouselImages[0] = carouselImages[1];
+            carouselImages[1] = carouselImages[2];
+            carouselImages[2] = temp;
+            updateCarousel();
+        });
+        rightArrow.addEventListener('click', function() {
+            // Rotate right: center -> right, left -> center, right -> left
+            const temp = carouselImages[2];
+            carouselImages[2] = carouselImages[1];
+            carouselImages[1] = carouselImages[0];
+            carouselImages[0] = temp;
+            updateCarousel();
+        });
+    }
+
+    // Auto-rotate carousel from left to right every 3 seconds
+    setInterval(function() {
+        // Same as right arrow click
+        const temp = carouselImages[2];
+        carouselImages[2] = carouselImages[1];
+        carouselImages[1] = carouselImages[0];
+        carouselImages[0] = temp;
+        updateCarousel();
+    }, 3000);
+
+    // Education timeline data and rendering
+    const educationData = [
+        {
+            title: "Siksha 'O' Anusandhan University",
+            subtitle: "Bachelor of Technology in Computer Science and Engineering (B.Tech. CSE)",
+            date: "2021 — 2025",
+            location: "Bhubaneswar, Odisha",
+            details: [
+                "Current CGPA: 7.9",
+                "Relevant Coursework: Data Structures, Algorithms, DBMS, Operating Systems",
+                "Projects: Web-based Student Portal, IoT Home Automation"
+            ]
+        },
+        {
+            title: "Kendriya Vidyalaya AFS, Bamrauli, Prayagraj",
+            subtitle: "12th Science",
+            date: "2020 — 2021",
+            location: "Prayagraj, UP",
+            details: [
+                "Percentage: 81% (CBSE Board)",
+                "Subjects: Physics, Chemistry, Mathematics, Computer Science"
+            ]
+        },
+        {
+            title: "Kendriya Vidyalaya AFS, Bamrauli, Prayagraj",
+            subtitle: "10th Science",
+            date: "2018 — 2019",
+            location: "Prayagraj, UP",
+            details: [
+                "Percentage: 82% (CBSE Board)",
+                "Awarded for Academic Excellence",
+                "Active in Science Club and School Quiz Team"
+            ]
+        }
+    ];
+
+    function renderEducationTimeline() {
+        const container = document.getElementById('educationTimeline');
+        if (!container) return;
+        container.innerHTML = '<div class="timeline"></div>';
+        const timeline = container.querySelector('.timeline');
+        educationData.forEach((item, idx) => {
+            const timelineItem = document.createElement('div');
+            timelineItem.className = 'timeline-item fade-in';
+            timelineItem.style.transitionDelay = (idx * 0.15) + 's';
+            let detailsHtml = '';
+            if (item.details && item.details.length > 0) {
+                detailsHtml = '<ul class="timeline-item-list">' + item.details.map(d => `<li>${d}</li>`).join('') + '</ul>';
+            }
+            timelineItem.innerHTML = `
+                <div class="timeline-dot"></div>
+                <div class="timeline-item-title">${item.title}</div>
+                <div class="timeline-item-subtitle">${item.subtitle}</div>
+                <div class="timeline-item-date">${item.date}</div>
+                <div class="timeline-item-location">${item.location}</div>
+                ${detailsHtml}
+            `;
+            timeline.appendChild(timelineItem);
+        });
+        // Set initial opacity for fade-in
+        timeline.querySelectorAll('.fade-in').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transition = 'opacity 0.7s cubic-bezier(.4,0,.2,1)';
+        });
+        setTimeout(() => {
+            timeline.querySelectorAll('.fade-in').forEach(el => {
+                el.style.opacity = '1';
+            });
+        }, 100);
+    }
+    renderEducationTimeline();
 });

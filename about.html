@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kanhaiya's Portfolio</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body data-bs-spy="scroll" data-bs-target="#navbar">
+    <!-- Navigation -->
+    <!-- Update the navbar-brand section in the navigation -->
+<nav id="navbar" class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+    <div class="container">
+        <a class="navbar-brand" href="#">
+            <img src="pics/straw_hat.png" alt="Logo" class="navbar-logo me-2">
+            Kanhaiya
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="index.html">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="resume.html">Resume</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="contact.html">Contact</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+    <!-- Bootstrap JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Custom JS -->
+    <script src="script.js"></script>
+    <video autoplay loop muted class="bg-video">
+        <source src="clips/background.mp4" type="video/mp4">
+    </video>
+    <!-- Skills Section -->
+    <section id="skills" class="py-5 bg-light">
+      <div class="container">
+          <h2 class="section-title text-center mb-5">My Skills</h2>
+          <div class="row" id="skillsContainer">
+              <!-- Skills will be added dynamically with JavaScript -->
+          </div>
+          <div class="text-center mt-4">
+              <button class="btn btn-primary" id="addSkillBtn">Add Skill</button>
+          </div>
+      </div>
+  </section>
+
+  <!-- Academics Section -->
+  <section id="academics" class="py-5 mb-5">
+      <div class="container">
+          <h2 class="section-title text-center mb-5">Academic Performance</h2>
+          <div class="table-responsive">
+              <table class="table table-striped table-hover">
+                  <thead class="table-dark">
+                      <tr>
+                          <th>Semester</th>
+                          <th>CGPA</th>
+                          <th>Progress</th>
+                      </tr>
+                  </thead>
+                  <tbody id="academicTable">
+                      <!-- Table rows will be added dynamically -->
+                  </tbody>
+              </table>
+          </div>
+          <div class="text-center mt-3">
+              <button class="btn btn-outline-secondary" id="exportExcelBtn">Export as Excel</button>
+          </div>
+      </div>
+  </section>
+      <!-- Footer -->
+      <footer class="py-4 bg-dark text-white">
+        <div class="container text-center">
+            <p class="mb-0">&copy; 2025 Kanhaiya Mahato's Portfolio. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Back to Top Button -->
+    <button id="backToTop" class="btn btn-primary rounded-circle">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+    <a href="contact.html" id="support-robin" title="Need help? Contact me!"><img src="pics/robin.png" alt="Support Robin" class="support-img"></a>
+</body>
+</html>
