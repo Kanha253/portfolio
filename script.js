@@ -335,4 +335,54 @@ document.addEventListener('DOMContentLoaded', function() {
         }, 100);
     }
     renderEducationTimeline();
+
+    // Mute/unmute background video logic
+    function setupMuteButton() {
+      const muteBtn = document.getElementById('muteBtn');
+      const bgVideo = document.querySelector('.bg-video');
+      if (!muteBtn || !bgVideo) return;
+      function updateIcon() {
+        if (bgVideo.muted || bgVideo.volume === 0) {
+          muteBtn.innerHTML = '<i class="fas fa-volume-mute"></i>';
+        } else {
+          muteBtn.innerHTML = '<i class="fas fa-volume-up"></i>';
+        }
+      }
+      muteBtn.addEventListener('click', function() {
+        bgVideo.muted = !bgVideo.muted;
+        updateIcon();
+      });
+      updateIcon();
+    }
+    document.addEventListener('DOMContentLoaded', setupMuteButton);
+});
+
+document.addEventListener("DOMContentLoaded", () => {
+    const video = document.querySelector("video.bg-video");
+    const muteBtn = document.getElementById("muteBtn");
+    const icon = muteBtn?.querySelector("i");
+
+    // Restore mute state from localStorage
+    if (localStorage.getItem("videoMuted") === "true") {
+        video.muted = true;
+        icon.classList.remove("fa-volume-up");
+        icon.classList.add("fa-volume-mute");
+    } else {
+        video.muted = false;
+        icon.classList.remove("fa-volume-mute");
+        icon.classList.add("fa-volume-up");
+    }
+
+    muteBtn?.addEventListener("click", () => {
+        video.muted = !video.muted;
+        localStorage.setItem("videoMuted", video.muted);
+
+        if (video.muted) {
+            icon.classList.remove("fa-volume-up");
+            icon.classList.add("fa-volume-mute");
+        } else {
+            icon.classList.remove("fa-volume-mute");
+            icon.classList.add("fa-volume-up");
+        }
+    });
 });
